@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "ansible-role-automation-user"
+      include_role:
+        name: "ansible-role-automation-user"
