@@ -1,11 +1,6 @@
 ---
-- name: Restart ssh
+- name: restart_ssh
   service:
     name: sshd
     state: restarted
   become: yes
-# - name: Restart ssh
-#   service:
-#     name: ssh
-#     state: restarted
-#   when: ansible_facts['os_family'] == Ubuntu

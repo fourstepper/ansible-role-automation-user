@@ -6,7 +6,7 @@
   when: ansible_facts['os_family'] == 'Debian'
   become: yes
 
-- name: Install openssh
+- name: Install the SSH server
   package:
     name: openssh-server
     state: present
@@ -17,12 +17,15 @@
     name: "{{ automation_user }}"
   become: yes
 
-- name: Copy custom sudoers file to /etc/sudoers.d/
+- name: Let the automation user sudo without a password
   template:
     src: files/sudoers_custom
     dest: "/etc/sudoers.d/{{ automation_user }}"
+    validate: 'visudo -cf %s'
   changed_when: false
   become: yes
+  notify:
+    - restart_ssh
 
 - name: Manage authorized SSH key to automation user
   authorized_key:
@@ -33,11 +36,19 @@
   tags: sshkeys
   become: yes
 
+- name: Make sure the ssh service is initialized
+  service:
+    name: sshd
+    state: started
+    enabled: yes
+  become: yes
+
 - name: Allow ansible user only with key
   blockinfile:
     dest: /etc/ssh/sshd_config
     block: |
       Match User "{{ automation_user }}"
       PasswordAuthentication no
-  notify: Restart ssh
   become: yes
+  notify:
+    - restart_ssh
