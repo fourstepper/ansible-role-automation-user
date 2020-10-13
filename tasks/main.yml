@@ -18,9 +18,10 @@
   become: yes
 
 - name: Copy custom sudoers file to /etc/sudoers.d/
-  copy:
+  template:
     src: files/sudoers_custom
-    dest: /etc/sudoers.d/{{ automation_user }}
+    dest: "/etc/sudoers.d/{{ automation_user }}"
+  changed_when: false
   become: yes
 
 - name: Manage authorized SSH key to automation user
