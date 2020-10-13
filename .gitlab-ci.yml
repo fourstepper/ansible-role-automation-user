@@ -19,7 +19,7 @@ variables:
   ANSIBLE_FORCE_COLOR: 'true'
   PY_COLORS: '1'
 
-molecule:
+ci:
   stage: test
   script:
     - molecule test
