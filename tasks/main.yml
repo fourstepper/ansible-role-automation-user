@@ -1,0 +1,42 @@
+---
+- name: Update cache if on Debian or Ubuntu
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_facts['os_family'] == 'Debian'
+  become: yes
+
+- name: Install openssh
+  package:
+    name: openssh-server
+    state: present
+  become: yes
+
+- name: Create automation user
+  user:
+    name: "{{ automation_user }}"
+  become: yes
+
+- name: Copy custom sudoers file to /etc/sudoers.d/
+  copy:
+    src: files/sudoers_custom
+    dest: /etc/sudoers.d/{{ automation_user }}
+  become: yes
+
+- name: Manage authorized SSH key to automation user
+  authorized_key:
+    exclusive: yes
+    user: "{{ automation_user }}"
+    key: "{{ item }}"
+  with_file: "{{ ansible_public_keys_path }}"
+  tags: sshkeys
+  become: yes
+
+- name: Allow ansible user only with key
+  blockinfile:
+    dest: /etc/ssh/sshd_config
+    block: |
+      Match User "{{ automation_user }}"
+      PasswordAuthentication no
+  notify: Restart ssh
+  become: yes

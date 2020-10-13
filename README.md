@@ -1,0 +1,1 @@
+# This role has to be run with root privileges (--ask-become-pass), unless absolutely privileges (ansible) user already exists

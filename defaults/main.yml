@@ -1,0 +1,3 @@
+---
+ansible_public_keys_path: files/public_keys
+automation_user: ansible
