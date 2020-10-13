@@ -1,6 +1,19 @@
-# This role has to be run with root privileges (--ask-become-pass), unless privileged user already exists
+# ansible-role-automation-user
 
-## Vars
-- automation_user: ansible - the name of the automation user
-- Add your public key to the files/public_keys
+An Ansible Role that provisions a secure automation user for a system
 
+## Requirements
+
+None.
+
+## Role variables
+`automation_user: ansible`
+
+Add your public key to the `files/public_keys` file
+
+Note: It is possible to add multiple key files as well
+
+### DISCLAIMER: This role has to be run with root privileges (--ask-become-pass)
+
+#### License
+MIT
