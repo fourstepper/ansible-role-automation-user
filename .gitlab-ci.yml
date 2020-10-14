@@ -22,5 +22,5 @@ variables:
 ci:
   stage: test
   script:
-    - molecule test
+    - ANSIBLE_VAULT_PASSWORD_FILE=$VAULT_PASSWORD_FILE molecule test
 
