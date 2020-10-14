@@ -12,7 +12,7 @@
     state: present
   become: yes
 
-- name: Create automation user
+- name: Create the automation user
   user:
     name: "{{ automation_user }}"
   become: yes
@@ -32,7 +32,7 @@
     exclusive: yes
     user: "{{ automation_user }}"
     key: "{{ item }}"
-  with_items: {{ ansible_public_keys_path }}
+  with_file: "{{ ansible_public_keys_path }}"
   no_log: true
   tags: sshkeys
   become: yes
