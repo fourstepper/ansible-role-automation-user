@@ -6,7 +6,7 @@
   when: ansible_facts['os_family'] == 'Debian'
   become: yes
 
-- name: Install the SSH server
+- name: Make sure that an SSH server is installed
   package:
     name: openssh-server
     state: present
@@ -37,7 +37,7 @@
   tags: sshkeys
   become: yes
 
-- name: Make sure the ssh service is initialized
+- name: Make sure the SSH service is initialized
   service:
     name: sshd
     state: started
